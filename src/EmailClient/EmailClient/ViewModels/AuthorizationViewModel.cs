@@ -20,6 +20,10 @@ namespace EmailClient.ViewModels
 
             _authenticate.Select(unit => typeof(MainPageViewModel))
                 .Subscribe(navigationManager.Navigate);
+
+            _authenticate.ThrownExceptions
+                .Select(exception => typeof(ErrorAuthViewModel))
+                .Subscribe(navigationManager.Navigate);
         }
 
         public ICommand AuthenticateCommand => _authenticate;

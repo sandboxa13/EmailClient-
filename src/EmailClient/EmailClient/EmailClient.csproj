@@ -12,10 +12,12 @@
     </AvaloniaResource>
   </ItemGroup>
   <ItemGroup>
+    <AvaloniaResource Remove="ErrorAuthPage.xaml" />
     <AvaloniaResource Remove="LoginPage.xaml" />
     <AvaloniaResource Remove="MainPage.xaml" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="ErrorAuthPage.xaml" />
     <None Remove="LoginPage.xaml" />
     <None Remove="MainPage.xaml" />
   </ItemGroup>
@@ -23,6 +25,7 @@
     <PackageReference Include="Avalonia" Version="0.9.4" />
     <PackageReference Include="Avalonia.Desktop" Version="0.9.4" />
     <PackageReference Include="Avalonia.ReactiveUI" Version="0.9.4" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="ReactiveUI.Fody" Version="11.2.3" />
   </ItemGroup>
   <ItemGroup>
@@ -32,6 +35,11 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ErrorAuthPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
   </ItemGroup>

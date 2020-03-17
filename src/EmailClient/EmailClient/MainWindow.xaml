@@ -24,6 +24,9 @@
                 <DataTemplate DataType="viewModels:MainPageViewModel">
                     <views:MainPage />
                 </DataTemplate>
+                <DataTemplate DataType="viewModels:ErrorAuthViewModel">
+                    <views:ErrorAuthPage />
+                </DataTemplate>
             </Carousel.DataTemplates>
         </Carousel>
     </Panel>

@@ -11,7 +11,7 @@ namespace EmailClient.ViewModels
     {
         public MainWindowViewModel(INavigationManager navigationManager)
         {
-            Pages = new List<BaseViewModel> { new AuthorizationViewModel(navigationManager) , new MainPageViewModel() };
+            Pages = new List<BaseViewModel> { new AuthorizationViewModel(navigationManager) , new MainPageViewModel() , new ErrorAuthViewModel(navigationManager)};
 
             navigationManager.CurrentPage()
                 .Select(type => Pages.First(x => x.GetType() == type))
