@@ -4,7 +4,27 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="clr-namespace:EmailClient.ViewModels;assembly=EmailClient"
+    xmlns:views="clr-namespace:EmailClient"
     Title="EmailClient"
     d:DesignHeight="450"
     d:DesignWidth="800"
-    mc:Ignorable="d" />
+    mc:Ignorable="d">
+    <Panel Grid.Row="1" Grid.ColumnSpan="3">
+        <Carousel Items="{Binding Pages, Mode=OneTime}" SelectedItem="{Binding CurrentPage, Mode=OneWay}">
+
+            <Carousel.PageTransition>
+                <PageSlide Orientation="Horizontal" Duration="00:00:00.300" />
+            </Carousel.PageTransition>
+
+            <Carousel.DataTemplates>
+                <DataTemplate DataType="viewModels:AuthorizationViewModel">
+                    <views:LoginPage />
+                </DataTemplate>
+                <DataTemplate DataType="viewModels:MainPageViewModel">
+                    <views:MainPage />
+                </DataTemplate>
+            </Carousel.DataTemplates>
+        </Carousel>
+    </Panel>
+</Window>

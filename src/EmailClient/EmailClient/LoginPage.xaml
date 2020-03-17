@@ -1,0 +1,49 @@
+﻿<UserControl
+    x:Class="EmailClient.LoginPage"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+    <Grid>
+        <StackPanel VerticalAlignment="Center">
+            <StackPanel Margin="15">
+
+                <TextBlock
+                    FontSize="30"
+                    Foreground="#777777"
+                    Text="Google mail" />
+
+                <TextBlock
+                    Margin="5"
+                    FontSize="15"
+                    Foreground="#999999"
+                    Text="Your inbox" />
+            </StackPanel>
+
+            <Button
+                Classes="Login"
+                Command="{Binding AuthenticateCommand}"
+                Content="Log in"
+                Foreground="#ffffff" />
+        </StackPanel>
+    </Grid>
+
+    <UserControl.Styles>
+        <Style Selector="Button.Login /template/ ContentPresenter">
+            <Setter Property="CornerRadius" Value="4" />
+            <Setter Property="BorderThickness" Value="0" />
+        </Style>
+
+        <Style Selector="Button.Login">
+            <Setter Property="FontFamily" Value="Segoe UI, Ubuntu" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Background" Value="#03a87c" />
+            <Setter Property="Width" Value="100" />
+            <Setter Property="Height" Value="30" />
+        </Style>
+    </UserControl.Styles>
+</UserControl>

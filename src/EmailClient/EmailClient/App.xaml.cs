@@ -1,6 +1,7 @@
 ﻿using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using EmailClient.Managers;
 using EmailClient.ViewModels;
 
 namespace EmailClient
@@ -16,7 +17,9 @@ namespace EmailClient
         {
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
-                var vm = new MainWindowViewModel();
+                var navigationManager = new NavigationManager();
+
+                var vm = new MainWindowViewModel(navigationManager);
                 var window = new MainWindow {DataContext = vm};
 
                 desktop.MainWindow = window;

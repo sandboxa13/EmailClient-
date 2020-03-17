@@ -16,7 +16,7 @@ namespace EmailClient.Managers
         private string _clientSecret = "3f6NggMbPtrmIBpgx-MK2xXK";
         private string _tokenEndpoint = "https://www.googleapis.com/oauth2/v4/token";
         private string _userInfoEndpoint = "https://www.googleapis.com/oauth2/v3/userinfo";
-
+        private string _code;
         public GoogleAuthManager()
         {
             
@@ -90,7 +90,7 @@ namespace EmailClient.Managers
             }
 
             // extracts the code
-            var code = context.Request.QueryString.Get("code");
+            _code = context.Request.QueryString.Get("code");
             var incomingState = context.Request.QueryString.Get("state");
 
             // Compares the receieved state to the expected value, to ensure that

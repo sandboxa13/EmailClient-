@@ -1,23 +1,25 @@
-﻿using System.Reactive;
+﻿using System;
+using System.Reactive;
+using System.Reactive.Linq;
 using System.Windows.Input;
-using Avalonia;
 using EmailClient.Managers;
 using ReactiveUI;
 
 namespace EmailClient.ViewModels
 {
-    public class AuthorizationViewModel : AvaloniaObject
+    public class AuthorizationViewModel : BaseViewModel
     {
         private readonly ReactiveCommand<Unit, Unit> _authenticate;
 
-        public AuthorizationViewModel()
+        public AuthorizationViewModel(INavigationManager navigationManager)
         {
             AuthManager = new GoogleAuthManager();
 
             _authenticate = ReactiveCommand.CreateFromTask(
                 () => AuthManager.Authenticate());
 
-            _authenticate.Execute();
+            _authenticate.Select(unit => typeof(MainPageViewModel))
+                .Subscribe(navigationManager.Navigate);
         }
 
         public ICommand AuthenticateCommand => _authenticate;
