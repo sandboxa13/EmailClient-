@@ -9,9 +9,11 @@ namespace EmailClient.ViewModels
 {
     public class MainWindowViewModel : BaseViewModel
     {
-        public MainWindowViewModel(INavigationManager navigationManager)
+        public MainWindowViewModel(
+            INavigationManager navigationManager,
+            IGoogleApiManager googleApiManager)
         {
-            Pages = new List<BaseViewModel> { new AuthorizationViewModel(navigationManager) , new MainPageViewModel() , new ErrorAuthViewModel(navigationManager)};
+            Pages = new List<BaseViewModel> { new AuthorizationViewModel(navigationManager, googleApiManager) , new MainPageViewModel() , new ErrorAuthViewModel(navigationManager)};
 
             navigationManager.CurrentPage()
                 .Select(type => Pages.First(x => x.GetType() == type))

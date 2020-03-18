@@ -11,12 +11,11 @@ namespace EmailClient.ViewModels
     {
         private readonly ReactiveCommand<Unit, Unit> _authenticate;
 
-        public AuthorizationViewModel(INavigationManager navigationManager)
+        public AuthorizationViewModel(
+            INavigationManager navigationManager,
+            IGoogleApiManager googleApiManager)
         {
-            AuthManager = new GoogleAuthManager();
-
-            _authenticate = ReactiveCommand.CreateFromTask(
-                () => AuthManager.Authenticate());
+            _authenticate = ReactiveCommand.CreateFromTask(googleApiManager.AuthorizeAsync);
 
             _authenticate.Select(unit => typeof(MainPageViewModel))
                 .Subscribe(navigationManager.Navigate);
@@ -27,7 +26,5 @@ namespace EmailClient.ViewModels
         }
 
         public ICommand AuthenticateCommand => _authenticate;
-
-        public IAuthManager AuthManager { get; private set; }
     }
 }
