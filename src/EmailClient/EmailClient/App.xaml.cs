@@ -18,7 +18,7 @@ namespace EmailClient
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
                 var navigationManager = new NavigationManager();
-                var googleApiManager = new GoogleApiManager();
+                var googleApiManager = new MailKitApiManager();
 
 
                 var vm = new MainWindowViewModel(navigationManager, googleApiManager);

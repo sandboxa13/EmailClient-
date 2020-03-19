@@ -10,21 +10,46 @@
     <Grid>
         <StackPanel VerticalAlignment="Center">
             <StackPanel Margin="15">
-
                 <TextBlock
+                    Classes="Heading"
                     FontSize="30"
-                    Foreground="#777777"
-                    Text="Google mail" />
+                    Text="Email client" />
 
                 <TextBlock
-                    Margin="5"
-                    FontSize="15"
-                    Foreground="#999999"
-                    Text="Your inbox" />
+                    Classes="Caption"
+                    FontSize="20"
+                    Text="Your inboxes" />
             </StackPanel>
 
+            <TextBox
+                Width="250"
+                Height="40"
+                Margin="5"
+                Text="{Binding UserName}"
+                Watermark="Email" />
+
+            <TextBox
+                Width="250"
+                Height="40"
+                Margin="5"
+                PasswordChar="*"
+                Text="{Binding Password}"
+                Watermark="Password" />
+
+            <ComboBox
+                Width="250"
+                Height="40"
+                Margin="0,5,0,0"
+                SelectedIndex="0">
+                <ComboBoxItem Content="Gmail" />
+                <ComboBoxItem Content="Yandex" />
+                <ComboBoxItem Content="Mail.ru" />
+            </ComboBox>
+
             <Button
-                Classes="Login"
+                Width="250"
+                Height="50"
+                Margin="0,10,0,0"
                 Command="{Binding AuthenticateCommand}"
                 Content="Log in"
                 Foreground="#ffffff" />

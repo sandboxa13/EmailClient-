@@ -11,7 +11,9 @@ namespace EmailClient.ViewModels
     {
         private readonly ReactiveCommand<Unit, Unit> _retry;
 
-        public ErrorAuthViewModel(INavigationManager navigationManager)
+        public ErrorAuthViewModel(
+            INavigationManager navigationManager) 
+            : base("ErrorAuthViewModel")
         {
             _retry = ReactiveCommand.Create(() => { });
 

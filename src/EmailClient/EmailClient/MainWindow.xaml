@@ -9,6 +9,7 @@
     Title="EmailClient"
     d:DesignHeight="450"
     d:DesignWidth="800"
+    WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
     <Panel Grid.Row="1" Grid.ColumnSpan="3">
         <Carousel Items="{Binding Pages, Mode=OneTime}" SelectedItem="{Binding CurrentPage, Mode=OneWay}">
