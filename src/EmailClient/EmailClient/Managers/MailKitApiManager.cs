@@ -31,7 +31,7 @@ namespace EmailClient.Managers
             await _imapClient.Inbox.OpenAsync(FolderAccess.ReadOnly);
 
             var messagesSummary = await _imapClient.Inbox
-                .FetchAsync(Enumerable.Range(_imapClient.Inbox.Count - 100, _imapClient.Inbox.Count)
+                .FetchAsync(Enumerable.Range(0, 100)
                 .ToList(), MessageSummaryItems.All);
 
             return messagesSummary;
