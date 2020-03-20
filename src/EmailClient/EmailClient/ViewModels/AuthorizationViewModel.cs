@@ -29,8 +29,6 @@ namespace EmailClient.ViewModels
             //todo check email correctness by subscribing on it
             //todo add support for other email services
 
-            UserName = "dmitry.nikishin.84@gmail.com";
-            Password = "SaNdBoXa14881337";
             SelectedEmailService = 0;
         }
 
