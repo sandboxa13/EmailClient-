@@ -17,7 +17,7 @@ namespace EmailClient.ViewModels
             IMailKitApiManager mailKitApiManager) 
             : base("AuthorizationViewModel")
         {
-            _authenticate = ReactiveCommand.CreateFromTask(() => mailKitApiManager.AuthorizeAsync(UserName, Password, EmailService.Gmail));
+            _authenticate = ReactiveCommand.CreateFromTask(() => mailKitApiManager.AuthorizeAsync(UserName, Password, GetEmailService()));
 
             _authenticate.Select(unit => typeof(MainPageViewModel))
                 .Subscribe(navigationManager.Navigate);
@@ -37,5 +37,17 @@ namespace EmailClient.ViewModels
 
         [Reactive] public string UserName { get; set; }
         [Reactive] public string Password { get; set; }
+        [Reactive] public int SelectedEmailService { get; set; }
+
+        private EmailService GetEmailService()
+        {
+            return SelectedEmailService switch
+            {
+                0 => EmailService.Gmail,
+                1 => EmailService.Yandex,
+                2 => EmailService.Mailru,
+                _ => EmailService.Gmail,
+            };
+        }
     }
 }

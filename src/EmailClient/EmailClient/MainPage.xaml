@@ -17,21 +17,33 @@
         SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}">
         <ListBox.DataTemplates>
             <DataTemplate DataType="{x:Type viewModels:MessageViewModel}">
-                <StackPanel Margin="25,5" Orientation="Vertical">
+                <Grid ColumnDefinitions="Auto, *" RowDefinitions="*, *">
                     <TextBlock
+                        Grid.Row="0"
+                        Grid.Column="0"
                         Margin="0,5"
                         HorizontalAlignment="Left"
-                        FontSize="20"
-                        Foreground="#777777"
+                        Classes="Caption"
                         Text="{Binding From}" />
 
                     <TextBlock
+                        Grid.Row="1"
+                        Grid.Column="0"
                         Margin="0,5"
                         HorizontalAlignment="Left"
+                        Classes="Heading"
+                        Text="{Binding Snippet}" />
+
+                    <TextBlock
+                        Grid.Row="0"
+                        Grid.RowSpan="2"
+                        Grid.Column="1"
+                        Margin="0,5"
+                        HorizontalAlignment="Right"
                         FontSize="15"
                         Foreground="#777777"
-                        Text="{Binding Snippet}" />
-                </StackPanel>
+                        Text="{Binding Date}" />
+                </Grid>
             </DataTemplate>
         </ListBox.DataTemplates>
     </ListBox>

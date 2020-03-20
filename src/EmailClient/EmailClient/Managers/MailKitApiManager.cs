@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using MailKit;
 using MailKit.Net.Imap;
 using MailKit.Net.Smtp;
-using MimeKit;
 
 namespace EmailClient.Managers
 {
@@ -14,46 +14,27 @@ namespace EmailClient.Managers
 
         public Task AuthorizeAsync(string userName, string password, EmailService emailService = EmailService.Gmail)
         {
-            return Task.Run( async () =>
-            {
-                var emailServiceInfo = EmailServiceProvider.GetEmailServiceInfo(emailService);
-
-                _imapClient = new ImapClient { ServerCertificateValidationCallback = (s, c, h, e) => true };
-
-                await _imapClient.ConnectAsync(emailServiceInfo.ImapHost, emailServiceInfo.ImapPort, true);
-
-                await _imapClient.AuthenticateAsync(userName, password);
-
-                //_smtpClient = new SmtpClient { ServerCertificateValidationCallback = (s, c, h, e) => true };
-
-                //await _smtpClient.ConnectAsync(emailServiceInfo.SmtpHost, emailServiceInfo.SmtpPort, false);
-
-                //await _smtpClient.AuthenticateAsync(userName, password);
-            });
-        }
-
-        public  Task<IEnumerable<MimeMessage>> GetAllMessagesAsync()
-        {
             return Task.Run(async () =>
-            {
-                var clientInbox = _imapClient.Inbox;
+           {
+               var emailServiceInfo = EmailServiceProvider.GetEmailServiceInfo(emailService);
 
-                await clientInbox.OpenAsync(FolderAccess.ReadOnly);
+               _imapClient = new ImapClient { ServerCertificateValidationCallback = (s, c, h, e) => true };
 
-                return await GetMessagesInternal(clientInbox);
-            });
+               await _imapClient.ConnectAsync(emailServiceInfo.ImapHost, emailServiceInfo.ImapPort, true);
+
+               await _imapClient.AuthenticateAsync(userName, password);
+           });
         }
 
-        private async Task<IEnumerable<MimeMessage>> GetMessagesInternal(IMailFolder clientInbox)
+        public async Task<IEnumerable<IMessageSummary>> GetAllMessagesAsync()
         {
-            var messages = new List<MimeMessage>();
+            await _imapClient.Inbox.OpenAsync(FolderAccess.ReadOnly);
 
-            for (var i = clientInbox.Count - 1; i > clientInbox.Count - 10; i--)
-            {
-                messages.Add(await clientInbox.GetMessageAsync(i));
-            }
+            var messagesSummary = await _imapClient.Inbox
+                .FetchAsync(Enumerable.Range(_imapClient.Inbox.Count - 100, _imapClient.Inbox.Count)
+                .ToList(), MessageSummaryItems.All);
 
-            return messages;
+            return messagesSummary;
         }
     }
 
@@ -61,6 +42,6 @@ namespace EmailClient.Managers
     {
         Task AuthorizeAsync(string userName, string password, EmailService emailService = EmailService.Gmail);
 
-        Task<IEnumerable<MimeMessage>> GetAllMessagesAsync();
+        Task<IEnumerable<IMessageSummary>> GetAllMessagesAsync();
     }
 }

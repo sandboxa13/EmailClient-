@@ -6,6 +6,7 @@ using System.Reactive.Linq;
 using System.Threading.Tasks;
 using DynamicData;
 using EmailClient.Managers;
+using MailKit;
 using MimeKit;
 using ReactiveUI;
 
@@ -45,7 +46,7 @@ namespace EmailClient.ViewModels
             _messages.AddRange(ConvertToViewModel(messages));
         }
 
-        private IEnumerable<MessageViewModel> ConvertToViewModel(IEnumerable<MimeMessage> messages)
+        private IEnumerable<MessageViewModel> ConvertToViewModel(IEnumerable<IMessageSummary> messages)
         {
             return messages.Select(message => new MessageViewModel(message));
         }

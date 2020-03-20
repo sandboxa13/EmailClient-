@@ -6,19 +6,13 @@ namespace EmailClient.Managers
     {
         public static EmailServiceInfo GetEmailServiceInfo(EmailService emailService)
         {
-            switch (emailService)
+            return emailService switch
             {
-                case EmailService.Gmail:
-                    return new EmailServiceInfo("smtp.gmail.com", 587, "imap.gmail.com", 993);
-                case EmailService.Yandex:
-                    break;
-                case EmailService.Mailru:
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(emailService), emailService, null);
-            }
-
-            return EmailServiceInfo.Default();
+                EmailService.Gmail => new EmailServiceInfo("smtp.gmail.com", 587, "imap.gmail.com", 993),
+                EmailService.Yandex => new EmailServiceInfo("smtp.yandex.ru", 465, "imap.yandex.ru", 993),
+                EmailService.Mailru => new EmailServiceInfo("smtp.mail.ru", 465, "imap.mail.ru", 993),
+                _ => throw new ArgumentOutOfRangeException(nameof(emailService), emailService, null),
+            };
         }
     }
 }
