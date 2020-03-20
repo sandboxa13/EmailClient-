@@ -31,6 +31,7 @@ namespace EmailClient.ViewModels
 
             UserName = "dmitry.nikishin.84@gmail.com";
             Password = "SaNdBoXa14881337";
+            SelectedEmailService = 0;
         }
 
         public ICommand AuthenticateCommand => _authenticate;
