@@ -49,6 +49,7 @@
             <Button
                 Width="250"
                 Height="50"
+                IsDefault="True"
                 Margin="0,10,0,0"
                 Command="{Binding AuthenticateCommand}"
                 Content="Log in"

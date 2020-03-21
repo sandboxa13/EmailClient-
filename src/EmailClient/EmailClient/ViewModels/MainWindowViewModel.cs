@@ -18,7 +18,8 @@ namespace EmailClient.ViewModels
             {
                 new AuthorizationViewModel(navigationManager, mailKitApiManager), 
                 new MainPageViewModel(navigationManager, mailKitApiManager), 
-                new ErrorAuthViewModel(navigationManager)
+                new ErrorAuthViewModel(navigationManager),
+                new NewMessageViewModel(navigationManager, mailKitApiManager)
             };
 
             navigationManager.CurrentPage()

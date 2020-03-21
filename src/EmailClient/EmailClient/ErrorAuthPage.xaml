@@ -10,17 +10,14 @@
     <Grid>
         <StackPanel VerticalAlignment="Center">
             <StackPanel Margin="12">
-
                 <TextBlock HorizontalAlignment="Center" Text="An error has occured!" />
             </StackPanel>
 
             <Button
-                Classes="Login"
+                Width="100"
+                Height="50"
                 Command="{Binding RetryCommand}"
-                Content="Try Again"
-                Foreground="#ffffff" />
-
-
+                Content="Try Again" />
         </StackPanel>
     </Grid>
 

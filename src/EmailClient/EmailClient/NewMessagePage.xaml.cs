@@ -1,11 +1,12 @@
-﻿using Avalonia.Controls;
+﻿using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
 namespace EmailClient
 {
-    public class MainPage : UserControl
+    public class NewMessagePage : UserControl
     {
-        public MainPage()
+        public NewMessagePage()
         {
             this.InitializeComponent();
         }

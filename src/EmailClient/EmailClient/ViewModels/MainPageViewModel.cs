@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using DynamicData;
 using EmailClient.Managers;
 using MailKit;
-using MimeKit;
 using ReactiveUI;
 
 namespace EmailClient.ViewModels
@@ -15,8 +16,9 @@ namespace EmailClient.ViewModels
     public class MainPageViewModel : BaseViewModel
     {
         private readonly IMailKitApiManager _mailKitApiManager;
-        private SourceList<MessageViewModel> _messages { get; set; } = new SourceList<MessageViewModel>();
+        private SourceList<MessageViewModel> Messages { get; set; } = new SourceList<MessageViewModel>();
         private readonly ReadOnlyObservableCollection<MessageViewModel> _messageCollection;
+        private readonly ReactiveCommand<Unit, Unit> _writeMessage;
 
         public MainPageViewModel(
             INavigationManager navigationManager,
@@ -25,25 +27,34 @@ namespace EmailClient.ViewModels
         {
             _mailKitApiManager = mailKitApiManager;
 
+            _writeMessage = ReactiveCommand.Create(() => {});
+
+            _writeMessage.Select(unit => typeof(NewMessageViewModel))
+                .Subscribe(navigationManager.Navigate);
+
             navigationManager.CurrentPage()
                 .Subscribe(async vm => await LoadMessages(vm));
 
-            _messages.Connect()
+            Messages.Connect()
                 .ObserveOn(RxApp.MainThreadScheduler)
                 .Bind(out _messageCollection)
                 .Subscribe();
         }
 
-        public ReadOnlyObservableCollection<MessageViewModel> PhotoCollection => _messageCollection;
+        public ReadOnlyObservableCollection<MessageViewModel> MessagesCollection => _messageCollection;
+        public ICommand WriteMessageCommand => _writeMessage;
 
         private async Task LoadMessages(Type viewModel)
         {
             if (viewModel.Name != "MainPageViewModel")
                 return;
 
+            if(_messageCollection.Any())
+                return;
+
             var messages = await _mailKitApiManager.GetAllMessagesAsync();
 
-            _messages.AddRange(ConvertToViewModel(messages));
+            Messages.AddRange(ConvertToViewModel(messages));
         }
 
         private IEnumerable<MessageViewModel> ConvertToViewModel(IEnumerable<IMessageSummary> messages)

@@ -7,17 +7,15 @@
     xmlns:viewModels="clr-namespace:EmailClient.ViewModels;assembly=EmailClient"
     xmlns:views="clr-namespace:EmailClient"
     Title="EmailClient"
-    Width="1080"
-    Height="720"
     d:DesignHeight="450"
     d:DesignWidth="800"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
-    <Panel Grid.Row="1" Grid.ColumnSpan="3">
+    <Panel>
         <Carousel Items="{Binding Pages, Mode=OneTime}" SelectedItem="{Binding CurrentPage, Mode=OneWay}">
 
             <Carousel.PageTransition>
-                <PageSlide Orientation="Horizontal" Duration="00:00:00.300" />
+                <PageSlide Orientation="Horizontal" Duration="00:00:00.400" />
             </Carousel.PageTransition>
 
             <Carousel.DataTemplates>
@@ -29,6 +27,9 @@
                 </DataTemplate>
                 <DataTemplate DataType="viewModels:ErrorAuthViewModel">
                     <views:ErrorAuthPage />
+                </DataTemplate>
+                <DataTemplate DataType="viewModels:NewMessageViewModel">
+                    <views:NewMessagePage />
                 </DataTemplate>
             </Carousel.DataTemplates>
         </Carousel>

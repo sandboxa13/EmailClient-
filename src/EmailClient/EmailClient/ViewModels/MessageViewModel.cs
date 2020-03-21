@@ -11,6 +11,7 @@ namespace EmailClient.ViewModels
             Snippet = mimeMessage.NormalizedSubject;
             From = mimeMessage.Envelope.From.ToString();
             Date = mimeMessage.Envelope.Date.ToString();
+            Id = mimeMessage.Id;
         }
 
         [Reactive] public string Id { get; private set; }

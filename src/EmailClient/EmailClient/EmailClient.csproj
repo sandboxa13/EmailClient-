@@ -16,11 +16,13 @@
     <AvaloniaResource Remove="ErrorAuthPage.xaml" />
     <AvaloniaResource Remove="LoginPage.xaml" />
     <AvaloniaResource Remove="MainPage.xaml" />
+    <AvaloniaResource Remove="NewMessagePage.xaml" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="ErrorAuthPage.xaml" />
     <None Remove="LoginPage.xaml" />
     <None Remove="MainPage.xaml" />
+    <None Remove="NewMessagePage.xaml" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="0.9.4" />
@@ -43,6 +45,11 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ErrorAuthPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="NewMessagePage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
   </ItemGroup>
