@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Linq;
 using System.Reactive;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -33,6 +34,7 @@ namespace EmailClient.ViewModels
         [Reactive] public string From { get; private set; }
         [Reactive] public string To { get; private set; }
         [Reactive] public string Message { get; private set; }
+        [Reactive] public bool HasFiles { get; private set; }
 
         public ICommand BackCommand => _back;
         public ICommand DownloadFilesCommand => _downloadFiles;
@@ -46,6 +48,7 @@ namespace EmailClient.ViewModels
                 From = _message.From.ToString();
                 To = _message.To.ToString();
                 Message = _message.TextBody;
+                HasFiles = _message.Attachments.Any();
             });
         }
 

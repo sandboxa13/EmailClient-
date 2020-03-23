@@ -40,7 +40,8 @@
             HorizontalAlignment="Right"
             VerticalContentAlignment="Bottom"
             Command="{Binding DownloadFilesCommand}"
-            Content="Download files" />
+            Content="Download files"
+            IsVisible="{Binding HasFiles}" />
         <Button
             Grid.Row="3"
             Height="50"
