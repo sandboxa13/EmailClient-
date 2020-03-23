@@ -15,6 +15,7 @@
                 Margin="20,20,0,0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
+                Text="{Binding From}"
                 Watermark="From" />
             <TextBox
                 Grid.Row="1"
@@ -23,11 +24,13 @@
                 Margin="20,10,0,0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
+                Text="{Binding To}"
                 Watermark="To" />
         </StackPanel>
         <TextBox
             Grid.Row="1"
             Margin="20,10,20,0"
+            Text="{Binding Message}"
             Watermark="Message" />
         <Button
             Grid.Row="2"
@@ -46,7 +49,7 @@
             Margin="20"
             HorizontalAlignment="Left"
             VerticalAlignment="Bottom"
-            Command="{Binding SendMessageCommand}"
+            Command="{Binding AttachCommand}"
             Content="Attach" />
     </Grid>
 </UserControl>
