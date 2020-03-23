@@ -28,6 +28,7 @@
                         <Grid.ContextMenu>
                             <ContextMenu>
                                 <MenuItem Command="{Binding DoubleClickCommand}" Header="Open" />
+                                <MenuItem Command="{Binding DeleteMessageCommand}" Header="Delete" />
                             </ContextMenu>
                         </Grid.ContextMenu>
 

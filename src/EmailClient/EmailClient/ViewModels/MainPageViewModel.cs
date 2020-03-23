@@ -18,6 +18,7 @@ namespace EmailClient.ViewModels
         private readonly INavigationManager _navigationManager;
         private readonly IMailKitApiManager _mailKitApiManager;
         private readonly ISelectedMessageManager _selectedMessageManager;
+        private readonly IDeleteMessageManager _deleteMessageManager;
         private SourceList<MessageViewModel> Messages { get; set; } = new SourceList<MessageViewModel>();
         private readonly ReadOnlyObservableCollection<MessageViewModel> _messageCollection;
         private readonly ReactiveCommand<Unit, Unit> _writeMessage;
@@ -25,12 +26,14 @@ namespace EmailClient.ViewModels
         public MainPageViewModel(
             INavigationManager navigationManager,
             IMailKitApiManager mailKitApiManager, 
-            ISelectedMessageManager selectedMessageManager)
+            ISelectedMessageManager selectedMessageManager,
+            IDeleteMessageManager deleteMessageManager)
             : base("MainPageViewModel")
         {
             _navigationManager = navigationManager;
             _mailKitApiManager = mailKitApiManager;
             _selectedMessageManager = selectedMessageManager;
+            _deleteMessageManager = deleteMessageManager;
 
             _writeMessage = ReactiveCommand.Create(() => {});
 
@@ -39,6 +42,16 @@ namespace EmailClient.ViewModels
 
             navigationManager.CurrentPage()
                 .Subscribe(async vm => await LoadMessages(vm));
+
+            _deleteMessageManager.MessageDeletedObservable.Subscribe(id =>
+            {
+                var message = Messages.Items.FirstOrDefault(model => model.Id == id);
+
+                if(message == null)
+                    return;
+
+                Messages.Edit(list => list.Remove(message));
+            });
 
             Messages.Connect()
                 .ObserveOn(RxApp.MainThreadScheduler)
@@ -64,7 +77,7 @@ namespace EmailClient.ViewModels
 
         private IEnumerable<MessageViewModel> ConvertToViewModel(IEnumerable<IMessageSummary> messages)
         {
-            return messages.Select(message => new MessageViewModel(message, _navigationManager, _selectedMessageManager));
+            return messages.Select(message => new MessageViewModel(message, _navigationManager, _selectedMessageManager, _deleteMessageManager));
         }
     }
 }

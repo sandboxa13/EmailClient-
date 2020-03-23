@@ -15,7 +15,8 @@ namespace EmailClient.ViewModels
         public MessageViewModel(
             IMessageSummary mimeMessage, 
             INavigationManager navigationManager, 
-            ISelectedMessageManager selectedMessageManager) 
+            ISelectedMessageManager selectedMessageManager,
+            IDeleteMessageManager deleteMessageManager) 
             : base("MessageViewModel")
         {
             _doubleClick = ReactiveCommand.Create( () =>
@@ -24,6 +25,8 @@ namespace EmailClient.ViewModels
 
                 navigationManager.Navigate(typeof(ExtendedMessageViewModel));
             });
+
+            _deleteMessage = ReactiveCommand.Create(() => { deleteMessageManager.Delete(Id);});
 
             Snippet = mimeMessage.NormalizedSubject;
             From = mimeMessage.Envelope.From.ToString();

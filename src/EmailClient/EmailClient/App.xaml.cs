@@ -20,8 +20,9 @@ namespace EmailClient
                 var navigationManager = new NavigationManager();
                 var googleApiManager = new MailKitApiManager();
                 var selectedMessageManager = new SelectedMessageManager();
+                var deleteMessageManager = new DeleteMessageManager(googleApiManager);
 
-                var vm = new MainWindowViewModel(navigationManager, googleApiManager, selectedMessageManager);
+                var vm = new MainWindowViewModel(navigationManager, googleApiManager, selectedMessageManager, deleteMessageManager);
                 var window = new MainWindow {DataContext = vm};
 
                 desktop.MainWindow = window;

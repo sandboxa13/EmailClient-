@@ -80,6 +80,13 @@ namespace EmailClient.Managers
             return message;
         }
 
+        public void DeleteMessage(UniqueId uniqueId)
+        {
+            _imapClient.Inbox.Open(FolderAccess.ReadWrite);
+
+            _imapClient.Inbox.AddFlags( uniqueId , MessageFlags.Deleted, true);
+        }
+
         private async Task SendMessageInternal(string from, string to, string message, IEnumerable<string> attachmentsPaths)
         {
             var messageToSent = new MimeMessage();
@@ -124,5 +131,6 @@ namespace EmailClient.Managers
         Task<IEnumerable<IMessageSummary>> GetAllMessagesAsync();
         Task SendMessageAsync(string from, string to, string message, IEnumerable<string> attachmentsPaths);
         Task<MimeMessage> GetMessageAsync(UniqueId selectedMessage);
+        void DeleteMessage(UniqueId uniqueId);
     }
 }

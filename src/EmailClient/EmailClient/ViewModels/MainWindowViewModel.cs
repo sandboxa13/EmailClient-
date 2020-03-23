@@ -13,13 +13,14 @@ namespace EmailClient.ViewModels
         public MainWindowViewModel(
             INavigationManager navigationManager,
             IMailKitApiManager mailKitApiManager,
-            ISelectedMessageManager selectedMessageManager) 
+            ISelectedMessageManager selectedMessageManager, 
+            IDeleteMessageManager deleteMessageManager) 
             : base("MainWindowViewModel")
         {
             Pages = new List<BaseViewModel>
             {
                 new AuthorizationViewModel(navigationManager, mailKitApiManager), 
-                new MainPageViewModel(navigationManager, mailKitApiManager, selectedMessageManager), 
+                new MainPageViewModel(navigationManager, mailKitApiManager, selectedMessageManager, deleteMessageManager), 
                 new ErrorAuthViewModel(navigationManager),
                 new NewMessageViewModel(navigationManager, mailKitApiManager), 
                 new ExtendedMessageViewModel(UniqueId.Invalid, navigationManager, mailKitApiManager)
