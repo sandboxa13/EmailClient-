@@ -1,10 +1,10 @@
 ﻿<UserControl
-    x:Class="EmailClient.LoginPage"
+    x:Class="EmailClient.CustomAuthoriaztionView"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    d:DesignHeight="450"
+    d:DesignHeight="650"
     d:DesignWidth="800"
     mc:Ignorable="d">
     <Grid>
@@ -38,15 +38,34 @@
                     Text="{Binding Password}"
                     Watermark="Password" />
 
-                <ComboBox
+                <TextBox
                     Width="250"
                     Height="40"
-                    Margin="0,5,0,0"
-                    SelectedIndex="{Binding SelectedEmailService}">
-                    <ComboBoxItem Content="Gmail" />
-                    <ComboBoxItem Content="Yandex" />
-                    <ComboBoxItem Content="Mail.ru" />
-                </ComboBox>
+                    Margin="5"
+                    Text="{Binding ImapHost}"
+                    Watermark="Imap host" />
+
+                <TextBox
+                    Width="250"
+                    Height="40"
+                    Margin="5"
+                    Text="{Binding ImapPort}"
+                    Watermark="Imap port" />
+
+
+                <TextBox
+                    Width="250"
+                    Height="40"
+                    Margin="5"
+                    Text="{Binding SmtpHost}"
+                    Watermark="Smtp host" />
+
+                <TextBox
+                    Width="250"
+                    Height="40"
+                    Margin="5"
+                    Text="{Binding SmtpPort}"
+                    Watermark="Smtp port" />
 
                 <Button
                     Width="250"
@@ -61,28 +80,11 @@
                     Width="250"
                     Height="50"
                     Margin="0,10,0,0"
-                    Command="{Binding CustomCommand}"
-                    Content="Custom log in"
+                    Command="{Binding DefaultCommand}"
+                    Content="Default log in"
                     Foreground="#ffffff"
                     IsDefault="True" />
             </StackPanel>
-
         </StackPanel>
     </Grid>
-
-    <UserControl.Styles>
-        <Style Selector="Button.Login /template/ ContentPresenter">
-            <Setter Property="CornerRadius" Value="4" />
-            <Setter Property="BorderThickness" Value="0" />
-        </Style>
-
-        <Style Selector="Button.Login">
-            <Setter Property="FontFamily" Value="Segoe UI, Ubuntu" />
-            <Setter Property="HorizontalAlignment" Value="Center" />
-            <Setter Property="VerticalAlignment" Value="Center" />
-            <Setter Property="Background" Value="#03a87c" />
-            <Setter Property="Width" Value="100" />
-            <Setter Property="Height" Value="30" />
-        </Style>
-    </UserControl.Styles>
 </UserControl>

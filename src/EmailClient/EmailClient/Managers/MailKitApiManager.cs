@@ -7,7 +7,6 @@ using DynamicData;
 using MailKit;
 using MailKit.Net.Imap;
 using MailKit.Net.Smtp;
-using MailKit.Search;
 using MimeKit;
 
 namespace EmailClient.Managers
@@ -87,6 +86,27 @@ namespace EmailClient.Managers
             _imapClient.Inbox.AddFlags( uniqueId , MessageFlags.Deleted, true);
         }
 
+        public Task AuthorizeCustomAsync(string userName, string password, string imapHost, string imapPort, string smtpHost, string smtpPort)
+        {
+            _username = userName;
+            _password = password;
+
+            return Task.Run(async () =>
+            {
+                _imapClient = new ImapClient { ServerCertificateValidationCallback = (s, c, h, e) => true };
+
+                await _imapClient.ConnectAsync(imapHost, int.Parse(imapPort), true);
+
+                await _imapClient.AuthenticateAsync(userName, password);
+
+                _smtpClient = new SmtpClient { ServerCertificateValidationCallback = (s, c, h, e) => true };
+
+                await _smtpClient.ConnectAsync(smtpHost, int.Parse(smtpPort), false);
+
+                await _smtpClient.AuthenticateAsync(_username, _password);
+            });
+        }
+
         private async Task SendMessageInternal(string from, string to, string message, IEnumerable<string> attachmentsPaths)
         {
             var messageToSent = new MimeMessage();
@@ -132,5 +152,6 @@ namespace EmailClient.Managers
         Task SendMessageAsync(string from, string to, string message, IEnumerable<string> attachmentsPaths);
         Task<MimeMessage> GetMessageAsync(UniqueId selectedMessage);
         void DeleteMessage(UniqueId uniqueId);
+        Task AuthorizeCustomAsync(string userName, string password, string imapHost, string imapPort, string smtpHost, string smtpPort);
     }
 }

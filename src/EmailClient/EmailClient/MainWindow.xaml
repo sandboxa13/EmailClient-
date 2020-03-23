@@ -35,6 +35,9 @@
                 <DataTemplate DataType="viewModels:ExtendedMessageViewModel">
                     <views:MessagePage />
                 </DataTemplate>
+                <DataTemplate DataType="viewModels:CustomAuthorizationViewModel">
+                    <views:CustomAuthoriaztionView />
+                </DataTemplate>
             </Carousel.DataTemplates>
         </Carousel>
     </Panel>

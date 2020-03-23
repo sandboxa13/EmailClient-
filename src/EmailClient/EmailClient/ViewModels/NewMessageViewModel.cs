@@ -15,6 +15,7 @@ namespace EmailClient.ViewModels
     {
         private readonly ReactiveCommand<Unit, Unit> _sendMessage;
         private readonly ReactiveCommand<Unit, Unit> _attach;
+        private readonly ReactiveCommand<Unit, Unit> _back;
         private readonly List<string> _attachmentsPaths;
         public NewMessageViewModel(
             INavigationManager navigationManager,
@@ -22,6 +23,7 @@ namespace EmailClient.ViewModels
             : base("NewMessageViewModel")
         {
             _attachmentsPaths = new List<string>();
+            _back = ReactiveCommand.Create(() => navigationManager.Navigate(typeof(MainPageViewModel)));
 
             _sendMessage = ReactiveCommand.CreateFromTask(() => SendMessageAsync(mailKitApiManager, navigationManager));
             _attach = ReactiveCommand.CreateFromTask(AttachHandler);
@@ -29,6 +31,7 @@ namespace EmailClient.ViewModels
 
         public ICommand SendMessageCommand => _sendMessage;
         public ICommand AttachCommand => _attach;
+        public ICommand BackCommand => _back;
 
         [Reactive] public string From { get; private set; }
         [Reactive] public string To { get; private set; }

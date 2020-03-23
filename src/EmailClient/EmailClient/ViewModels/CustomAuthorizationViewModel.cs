@@ -8,21 +8,18 @@ using ReactiveUI.Fody.Helpers;
 
 namespace EmailClient.ViewModels
 {
-    public class AuthorizationViewModel : BaseViewModel
+    public class CustomAuthorizationViewModel : BaseViewModel
     {
         private readonly ReactiveCommand<Unit, Unit> _authenticate;
-        private readonly ReactiveCommand<Unit, Unit> _custom;
+        private readonly ReactiveCommand<Unit, Unit> _default;
 
-        public AuthorizationViewModel(
+        public CustomAuthorizationViewModel(
             INavigationManager navigationManager,
-            IMailKitApiManager mailKitApiManager) 
+            IMailKitApiManager mailKitApiManager)
             : base("AuthorizationViewModel")
         {
-            _authenticate = ReactiveCommand.CreateFromTask(() => mailKitApiManager.AuthorizeAsync(UserName, Password, GetEmailService()));
-            _custom = ReactiveCommand.Create(() =>
-            {
-                navigationManager.Navigate(typeof(CustomAuthorizationViewModel));
-            });
+            _authenticate = ReactiveCommand.CreateFromTask(() => mailKitApiManager.AuthorizeCustomAsync(UserName, Password, ImapHost, ImapPort, SmtpHost, SmtpPort));
+            _default = ReactiveCommand.Create(() => navigationManager.Navigate(typeof(AuthorizationViewModel)));
 
             _authenticate.Select(unit => typeof(MainPageViewModel))
                 .Subscribe(navigationManager.Navigate);
@@ -33,26 +30,18 @@ namespace EmailClient.ViewModels
 
             //todo check email correctness by subscribing on it
             //todo add support for other email services
-
-            SelectedEmailService = 0;
         }
 
         public ICommand AuthenticateCommand => _authenticate;
-        public ICommand CustomCommand => _custom;
+        public ICommand DefaultCommand => _default;
 
         [Reactive] public string UserName { get; set; }
         [Reactive] public string Password { get; set; }
-        [Reactive] public int SelectedEmailService { get; set; }
 
-        private EmailService GetEmailService()
-        {
-            return SelectedEmailService switch
-            {
-                0 => EmailService.Gmail,
-                1 => EmailService.Yandex,
-                2 => EmailService.Mailru,
-                _ => EmailService.Gmail,
-            };
-        }
+        [Reactive] public string ImapHost { get; set; }
+        [Reactive] public string ImapPort { get; set; }
+
+        [Reactive] public string SmtpHost { get; set; }
+        [Reactive] public string SmtpPort { get; set; }
     }
 }

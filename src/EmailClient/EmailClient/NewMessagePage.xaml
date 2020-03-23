@@ -34,13 +34,22 @@
             Watermark="Message" />
         <Button
             Grid.Row="2"
-            Width="200"
+            Width="100"
             Height="50"
             Margin="20"
             HorizontalAlignment="Right"
             VerticalAlignment="Bottom"
             Command="{Binding SendMessageCommand}"
             Content="Send" />
+        <Button
+            Grid.Row="2"
+            Width="100"
+            Height="50"
+            Margin="0,0,140,20"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            Command="{Binding BackCommand}"
+            Content="back" />
 
         <TextBlock
             Grid.Row="2"

@@ -23,7 +23,8 @@ namespace EmailClient.ViewModels
                 new MainPageViewModel(navigationManager, mailKitApiManager, selectedMessageManager, deleteMessageManager), 
                 new ErrorAuthViewModel(navigationManager),
                 new NewMessageViewModel(navigationManager, mailKitApiManager), 
-                new ExtendedMessageViewModel(UniqueId.Invalid, navigationManager, mailKitApiManager)
+                new ExtendedMessageViewModel(UniqueId.Invalid, navigationManager, mailKitApiManager),
+                new CustomAuthorizationViewModel(navigationManager, mailKitApiManager)
             };
 
             navigationManager.CurrentPage()
