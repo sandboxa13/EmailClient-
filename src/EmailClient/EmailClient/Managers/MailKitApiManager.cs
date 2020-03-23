@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reactive;
 using System.Threading.Tasks;
 using DynamicData;
 using MailKit;
@@ -76,6 +74,11 @@ namespace EmailClient.Managers
             messageToSent.To.Add(new MailboxAddress(to, to));
             messageToSent.Subject = message;
 
+            var body = new TextPart("plain")
+            {
+                Text = message
+            };
+
             var attachments = new List<MimePart>();
 
             foreach (var attachmentsPath in attachmentsPaths)
@@ -92,6 +95,7 @@ namespace EmailClient.Managers
             }
 
             var multipart = new Multipart("mixed");
+            multipart.Add(body);
             multipart.AddRange(attachments);
 
             messageToSent.Body = multipart;
