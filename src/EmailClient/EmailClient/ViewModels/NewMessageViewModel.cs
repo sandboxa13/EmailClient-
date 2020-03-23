@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Reactive;
-using System.Reactive.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Avalonia;
@@ -13,23 +11,53 @@ using ReactiveUI.Fody.Helpers;
 
 namespace EmailClient.ViewModels
 {
-    public class NewMessageViewModel :BaseViewModel
+    public class NewMessageViewModel : BaseViewModel
     {
         private readonly ReactiveCommand<Unit, Unit> _sendMessage;
         private readonly ReactiveCommand<Unit, Unit> _attach;
         private readonly List<string> _attachmentsPaths;
         public NewMessageViewModel(
-            INavigationManager navigationManager, 
+            INavigationManager navigationManager,
             IMailKitApiManager mailKitApiManager)
             : base("NewMessageViewModel")
         {
             _attachmentsPaths = new List<string>();
 
-            _sendMessage = ReactiveCommand.CreateFromTask(() => mailKitApiManager.SendMessageAsync(From, To, Message ?? "", _attachmentsPaths));
+            _sendMessage = ReactiveCommand.CreateFromTask(() => SendMessageAsync(mailKitApiManager, navigationManager));
             _attach = ReactiveCommand.CreateFromTask(AttachHandler);
+        }
 
-            _sendMessage.Select(unit => typeof(MainPageViewModel))
-                .Subscribe(navigationManager.Navigate);
+        public ICommand SendMessageCommand => _sendMessage;
+        public ICommand AttachCommand => _attach;
+
+        [Reactive] public string From { get; private set; }
+        [Reactive] public string To { get; private set; }
+        [Reactive] public string Message { get; private set; }
+        [Reactive] public string ErrorMessage { get; private set; }
+
+        private async Task SendMessageAsync(IMailKitApiManager mailKitApiManager, INavigationManager navigationManager)
+        {
+            if (string.IsNullOrWhiteSpace(From))
+            {
+                ErrorMessage = "no sender specified";
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(To))
+            {
+                ErrorMessage = "no recipient specified";
+                return;
+            }
+
+            await mailKitApiManager.SendMessageAsync(From, To, Message ?? "", _attachmentsPaths);
+
+            From = string.Empty;
+            To = string.Empty;
+            Message = string.Empty;
+            _attachmentsPaths.Clear();
+            ErrorMessage = string.Empty;
+
+            navigationManager.Navigate(typeof(MainPageViewModel));
         }
 
         private async Task AttachHandler()
@@ -39,7 +67,7 @@ namespace EmailClient.ViewModels
                 var dialog = new OpenFileDialog();
                 dialog.Filters.Add(new FileDialogFilter { Name = "Text", Extensions = { "txt" } });
                 dialog.Filters.Add(new FileDialogFilter { Name = "Png", Extensions = { "png" } });
-                dialog.Filters.Add(new FileDialogFilter { Name = "Jpeg", Extensions = { "jpg" } });
+                dialog.Filters.Add(new FileDialogFilter { Name = "Jpg", Extensions = { "jpg" } });
 
                 var results = await dialog.ShowAsync(desktop.MainWindow);
 
@@ -48,12 +76,5 @@ namespace EmailClient.ViewModels
 
             await Task.CompletedTask;
         }
-
-        public ICommand SendMessageCommand => _sendMessage;
-        public ICommand AttachCommand => _attach;
-
-        [Reactive] public string From { get; private set; }
-        [Reactive] public string To { get; private set; }
-        [Reactive] public string Message { get; private set; }
     }
 }
