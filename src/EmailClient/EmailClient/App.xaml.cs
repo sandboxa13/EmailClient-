@@ -19,9 +19,9 @@ namespace EmailClient
             {
                 var navigationManager = new NavigationManager();
                 var googleApiManager = new MailKitApiManager();
+                var selectedMessageManager = new SelectedMessageManager();
 
-
-                var vm = new MainWindowViewModel(navigationManager, googleApiManager);
+                var vm = new MainWindowViewModel(navigationManager, googleApiManager, selectedMessageManager);
                 var window = new MainWindow {DataContext = vm};
 
                 desktop.MainWindow = window;

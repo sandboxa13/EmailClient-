@@ -10,6 +10,7 @@
     d:DesignHeight="450"
     d:DesignWidth="800"
     WindowStartupLocation="CenterScreen"
+    WindowState="Maximized"
     mc:Ignorable="d">
     <Panel>
         <Carousel Items="{Binding Pages, Mode=OneTime}" SelectedItem="{Binding CurrentPage, Mode=OneWay}">
@@ -30,6 +31,9 @@
                 </DataTemplate>
                 <DataTemplate DataType="viewModels:NewMessageViewModel">
                     <views:NewMessagePage />
+                </DataTemplate>
+                <DataTemplate DataType="viewModels:ExtendedMessageViewModel">
+                    <views:MessagePage />
                 </DataTemplate>
             </Carousel.DataTemplates>
         </Carousel>

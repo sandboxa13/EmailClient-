@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -6,6 +7,7 @@ using DynamicData;
 using MailKit;
 using MailKit.Net.Imap;
 using MailKit.Net.Smtp;
+using MailKit.Search;
 using MimeKit;
 
 namespace EmailClient.Managers
@@ -39,11 +41,12 @@ namespace EmailClient.Managers
         {
             await _imapClient.Inbox.OpenAsync(FolderAccess.ReadOnly);
 
-            var messagesSummary = await _imapClient.Inbox
-                .FetchAsync(Enumerable.Range(0, 100)
-                .ToList(), MessageSummaryItems.All);
+            var index = Math.Max(_imapClient.Inbox.Count - 100, 0);
 
-            return messagesSummary;
+            var messagesSummary = await _imapClient.Inbox
+                .FetchAsync(index, -1, MessageSummaryItems.UniqueId | MessageSummaryItems.All);
+
+            return messagesSummary.Reverse();
         }
 
         public Task SendMessageAsync(string from, string to, string message, IEnumerable<string> attachmentsPaths)
@@ -65,6 +68,16 @@ namespace EmailClient.Managers
             }
 
             return SendMessageInternal(@from, to, message, attachmentsPaths);
+        }
+
+        public async Task<MimeMessage> GetMessageAsync(UniqueId selectedMessage)
+        {
+            if(_imapClient == null)
+                return new MimeMessage();
+
+            var message = await _imapClient.Inbox.GetMessageAsync(selectedMessage);
+
+            return message;
         }
 
         private async Task SendMessageInternal(string from, string to, string message, IEnumerable<string> attachmentsPaths)
@@ -110,5 +123,6 @@ namespace EmailClient.Managers
 
         Task<IEnumerable<IMessageSummary>> GetAllMessagesAsync();
         Task SendMessageAsync(string from, string to, string message, IEnumerable<string> attachmentsPaths);
+        Task<MimeMessage> GetMessageAsync(UniqueId selectedMessage);
     }
 }

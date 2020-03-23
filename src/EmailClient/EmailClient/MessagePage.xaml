@@ -1,0 +1,53 @@
+﻿<UserControl
+    x:Class="EmailClient.MessagePage"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+
+    <Grid RowDefinitions="Auto, Auto, *, Auto">
+        <StackPanel
+            Grid.Row="0"
+            Margin="10"
+            Orientation="Vertical">
+            <TextBlock Classes="Heading" Text="From: " />
+            <TextBlock Classes="Caption" Text="{Binding From}" />
+        </StackPanel>
+
+        <StackPanel
+            Grid.Row="1"
+            Margin="10"
+            Orientation="Vertical">
+            <TextBlock Classes="Heading" Text="To: " />
+            <TextBlock Classes="Caption" Text="{Binding To}" />
+        </StackPanel>
+
+        <StackPanel
+            Grid.Row="2"
+            Margin="10"
+            Orientation="Vertical">
+            <TextBlock Classes="Heading" Text="Message: " />
+            <TextBlock Classes="Heading" Text="{Binding Message}" />
+        </StackPanel>
+
+        <Button
+            Grid.Row="3"
+            Height="50"
+            Margin="20"
+            HorizontalAlignment="Right"
+            VerticalContentAlignment="Bottom"
+            Command="{Binding DownloadFilesCommand}"
+            Content="Download files" />
+        <Button
+            Grid.Row="3"
+            Height="50"
+            Margin="20"
+            HorizontalAlignment="Left"
+            VerticalContentAlignment="Bottom"
+            Command="{Binding BackCommand}"
+            Content="Back" />
+    </Grid>
+</UserControl>

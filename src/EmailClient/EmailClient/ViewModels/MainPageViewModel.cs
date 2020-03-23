@@ -15,17 +15,22 @@ namespace EmailClient.ViewModels
 {
     public class MainPageViewModel : BaseViewModel
     {
+        private readonly INavigationManager _navigationManager;
         private readonly IMailKitApiManager _mailKitApiManager;
+        private readonly ISelectedMessageManager _selectedMessageManager;
         private SourceList<MessageViewModel> Messages { get; set; } = new SourceList<MessageViewModel>();
         private readonly ReadOnlyObservableCollection<MessageViewModel> _messageCollection;
         private readonly ReactiveCommand<Unit, Unit> _writeMessage;
 
         public MainPageViewModel(
             INavigationManager navigationManager,
-            IMailKitApiManager mailKitApiManager)
+            IMailKitApiManager mailKitApiManager, 
+            ISelectedMessageManager selectedMessageManager)
             : base("MainPageViewModel")
         {
+            _navigationManager = navigationManager;
             _mailKitApiManager = mailKitApiManager;
+            _selectedMessageManager = selectedMessageManager;
 
             _writeMessage = ReactiveCommand.Create(() => {});
 
@@ -59,7 +64,7 @@ namespace EmailClient.ViewModels
 
         private IEnumerable<MessageViewModel> ConvertToViewModel(IEnumerable<IMessageSummary> messages)
         {
-            return messages.Select(message => new MessageViewModel(message));
+            return messages.Select(message => new MessageViewModel(message, _navigationManager, _selectedMessageManager));
         }
     }
 }

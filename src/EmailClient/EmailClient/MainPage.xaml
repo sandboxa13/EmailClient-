@@ -25,13 +25,19 @@
             <ListBox.DataTemplates>
                 <DataTemplate DataType="{x:Type viewModels:MessageViewModel}">
                     <Grid ColumnDefinitions="Auto, *" RowDefinitions="*, *">
-                        <TextBlock
-                            Grid.Row="0"
-                            Grid.Column="0"
-                            Margin="0,5"
-                            HorizontalAlignment="Left"
-                            Classes="Caption"
-                            Text="{Binding From}" />
+                        <Grid.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Command="{Binding DoubleClickCommand}" Header="Open" />
+                            </ContextMenu>
+                        </Grid.ContextMenu>
+
+                        <StackPanel Grid.Row="0" Grid.Column="0">
+                            <TextBlock
+                                Margin="0,5"
+                                HorizontalAlignment="Left"
+                                Classes="Caption"
+                                Text="{Binding From}" />
+                        </StackPanel>
 
                         <TextBlock
                             Grid.Row="1"
